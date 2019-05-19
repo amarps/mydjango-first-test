@@ -1,3 +1,57 @@
-h1 a, h2 a{
-	color: #c25100;
+#app{
+	margin-top: 60px;
+}
+.comment{
+	width: 80%;
+	margin: auto;
+	margin-top: 150px;
+}
+
+.comment-body{
+	margin-top: 15px;
+}
+
+.addmr-top{
+	margin-top: 100px;
+	margin-bottom: 50px;
+}
+
+.content{
+	transition: all 1s ease-in-out;
+	padding: 50px;
+}
+
+.navbar{
+	transition: all 0.5s;
+}
+
+#blog_list{
+	margin-bottom: 20px;
+	transition: all .5s;
+}
+
+#blog_list:hover{
+	box-shadow: 3px 3px 3px 3px #ddd;
+}
+
+.rocket{
+	filter: grayscale(100%);
+	transition: all 1s ease-in-out;
+	}
+.rocket:hover{
+		transform: rotate(360deg) ;
+		filter: grayscale(0%);
+}
+.center{
+  padding-top: 150px; 
+}
+.footer{
+  margin-top: 30px;
+  color: rgb(255, 255, 255);
+  background-color: #19232d;
+  padding: 30px;
+}
+.login{
+	width: 50%;
+	margin: auto;
 }

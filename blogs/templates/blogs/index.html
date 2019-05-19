@@ -1,0 +1,28 @@
+{% extends 'blogs/base.html' %}
+
+
+{% block content %}
+<div class="row justify-content-center">
+	<div class="col-sm">
+		<center><h1>Welcome To Tutorial From DjangoGirls</h1></center>
+	</div>
+</div>
+
+<div class="row addmr-top justify-content-center content" id="content">
+	<div class="col-sm-3">
+		<center><a href="{% url 'review' %}"><img class="rocket" src="https://png.pngtree.com/svg/20161218/6353dc319d.png" width="100%"></a></center>
+	</div>
+	<div class="col-sm center index_text" style="text-align: right;">
+		<h1>Test The Review Here</h1>
+	</div>
+</div>
+
+<div class="row addmr-top center content justify-content-center" id="content1">
+	<div class="col-sm center">
+		<h1>Or Test Blog Crud Here</h1>
+	</div>
+	<div class="col-sm-3">
+		<center><a href="{% url 'post_list' %}"><img class="rocket" src="https://png.pngtree.com/svg/20170210/6353b51d9d.png" width="100%"></a>
+	</div>
+</div>
+{% endblock %}

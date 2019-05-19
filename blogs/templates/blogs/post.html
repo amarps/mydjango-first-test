@@ -1,0 +1,92 @@
+{% extends 'blogs/base.html' %}
+{% load post_extras %}
+
+{% block content %}
+{% with url_name=request.resolver_match.url_name %}
+    <div class="container">
+
+<!-- post edit page -->
+        {% if url_name == 'post_edit' or url_name == 'post_new' %}
+
+            <h2>New post</h2>
+            {% if user.is_authenticated %}
+            <form method="POST" class="post-form">{% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+            {% endif %}
+
+<!-- post detail page -->
+        {% elif url_name == 'post_detail' %}
+
+            {% if user.is_authenticated %}
+                <a class="btn btn-info" href="{% url 'post_edit' pk=post.pk %}">update</a>
+            {% endif %}
+            {% if user.is_superuser %}
+            <a class="btn btn-danger" href="{% url 'post_delete' pk=post.pk %}">Delete</a>
+            {% endif %}
+
+            <h2>{{ post.title }}</h2>
+            {% if post.published_date %}
+                <div class="date">
+                    <i>{{ post.published_date }}</i>
+                </div>
+            {% endif %}
+
+            <p>{{ post.text|linebreaksbr }}</p>
+            <div class="comment">
+                {% if user.is_authenticated %}
+                <form method="POST" class="post-form">{% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Post</button>
+                </form>
+                {% else %}
+                    <h5>You need to login. to use the comment section :(( </h5>
+                {% endif %}
+                <h4>Comments</h4>
+                {% for comment in comments %}
+                <div class="comment-body">
+                    <div class="card">
+                        <div class="card-body">
+                        <h5 class="card-title">{{ comment.author }}</h5>
+                        <i>{{ comment.created_date }}</i>
+                        <hr>
+                        <p class="card-text">{{ comment.text }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        {% else %}
+<!-- post list page -->
+        <h2>Post</h2>
+        <hr>
+        {% for post in posts %}
+        <div id="blog_list">
+          <div class="card-body">
+            <h5 class="card-title">{{ post | upper }}</h5>
+            {% if post.published_date %}
+            <div class="date">
+                <i>{{ post.published_date }}</i>
+            </div>
+            {% endif %}
+            <p class="card-text">{{ post.text | post_list_body | linebreaks }}</p>
+            <a href="{% url 'post_detail' pk=post.pk %}" class="btn btn-primary">Read</a>
+            {% if user.is_authenticated %}
+            <a class="btn btn-info" href="{% url 'post_edit' pk=post.pk %}">update</a>
+            {% endif %}
+            {% if user.is_superuser %}
+            <a class="btn btn-danger" href="{% url 'post_delete' pk=post.pk %}">Delete</a>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+
+        {% endif %}
+
+
+    </div>
+
+{% endwith %}
+{% endblock %}

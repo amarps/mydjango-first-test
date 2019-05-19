@@ -1,0 +1,40 @@
+{% extends 'blogs/base.html' %}
+
+{% block content %}
+{% with url_name=request.resolver_match.url_name %}
+    <div class="container">
+    <div class="login">
+        <form method="POST" class="post-form">{% csrf_token %}
+            <div class="card text-center">
+              <div class="card-header">
+                <h3 class="card-title">
+                    {% if url_name == 'register_user' %}
+                        Register
+                    {% else %}
+                        Login
+                    {% endif %}
+                </h3>
+              </div>
+              <div class="card-body">
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">
+                    {% if url_name == 'register_user' %}
+                        Register
+                    {% else %}
+                        Login
+                    {% endif %}
+                </button>
+              </div>
+              <div class="card-footer text-muted">
+                {% if url_name == 'register_user' %}
+                    Already have an account ? <a href="{% url 'login_user' %}">Sign in »</a>
+                {% else %}
+                     New to This Web ? <a href="{% url 'register_user' %}">Sign up now »</a>
+                {% endif %}
+              </div>
+            </div>
+        </form>
+    </div>
+    </div>
+{% endwith %}
+{% endblock %}

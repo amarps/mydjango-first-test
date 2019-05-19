@@ -1,9 +1,0 @@
-{% extends 'blogs/base.html' %}
-
-{% block content %}
-    {% for post in posts %}
-        <div>
-            <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post }}</a></h1>
-        </div>
-    {% endfor %}
-{% endblock %}
