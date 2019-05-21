@@ -17,19 +17,22 @@
             {{ user.username }}
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            {% if user.is_superuser %}
+              <a class="dropdown-item" href="/admin">Admin Panel</a>
+            {% endif %}
             <a class="dropdown-item" href="{% url 'logout_view' %}">LogOut</a>
           </div>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="/post/new">New</a>
+          <a class="nav-link" href="{% url 'post_new' %}">New</a>
         </li>
         {% else %}
-
           <a class="nav-link" href="{% url 'register_user' %}">Register</a>
           <a class="nav-link" href="{% url 'login_user' %}">Login</a>
 
         {% endif %}
+          <a class="nav-link" href="{% url 'related' %}">Select Related</a>
 
       {% endwith %}
     </ul>

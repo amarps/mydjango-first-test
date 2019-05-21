@@ -36,6 +36,16 @@
             <p>{{ post.text|linebreaksbr }}</p>
             <div class="comment">
                 {% if user.is_authenticated %}
+                <a class="btn btn-primary" href="{% url 'likedis' pk=post.pk choice='l' %}">Like</a>
+                <a class="btn btn-danger" href="{% url 'likedis' pk=post.pk choice='t' %}">DisLike</a>
+                <br><br><br><hr>
+                <p>Analystics</p>
+                <p>num visited : {{ analytics.num_visited }}</p>
+                <p>Last Update : {{ analytics.last_updated }}</p>
+                <p>Time Visited : {{ analytics.time_visited }}</p>
+                <p>Like : {{ analytics.like }}</p>
+                <p>Dislike : {{ analytics.dislike }}</p>
+                <hr><br><br><br>
                 <form method="POST" class="post-form">{% csrf_token %}
                     {{ form.as_p }}
                     <button type="submit" class="btn btn-primary">Post</button>
@@ -62,6 +72,15 @@
 <!-- post list page -->
         <h2>Post</h2>
         <hr>
+        <p>Select Categories : </p>
+        <a class="btn btn-warning" href="{% url 'post_list' %}">All</a>
+        <a class="btn btn-warning" href="{% url 'post_list_c' category='G' %}">Game</a>
+        <a class="btn btn-warning" href="{% url 'post_list_c' category='M' %}">Music</a>
+        <a class="btn btn-warning" href="{% url 'post_list_c' category='F' %}">Film</a>
+        <a class="btn btn-warning" href="{% url 'post_list_c' category='P' %}">Politics</a>
+        <br>
+        <hr>
+        <br>
         {% for post in posts %}
         <div id="blog_list">
           <div class="card-body">
@@ -72,6 +91,7 @@
             </div>
             {% endif %}
             <p class="card-text">{{ post.text | post_list_body | linebreaks }}</p>
+            <p>Number Category : {{ post.categories__count }}</p>
             <a href="{% url 'post_detail' pk=post.pk %}" class="btn btn-primary">Read</a>
             {% if user.is_authenticated %}
             <a class="btn btn-info" href="{% url 'post_edit' pk=post.pk %}">update</a>
@@ -79,9 +99,24 @@
             {% if user.is_superuser %}
             <a class="btn btn-danger" href="{% url 'post_delete' pk=post.pk %}">Delete</a>
             {% endif %}
+            <p>Category : </p>
+            <p>{{ post.get_categories_display }}</p>
           </div>
         </div>
         {% endfor %}
+
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            {% if posts.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ posts.previous_page_number }}">Previous</a></li>
+            {% endif %}
+            <li class="page-item"><a class="page-link" href="#">{{ posts.number }} of {{ posts.paginator.num_pages }}.</a></li>
+            {% if posts.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ posts.next_page_number }}">Next</a></li>
+            {% endif %}
+          </ul>
+        </nav>
+
 
         {% endif %}
 

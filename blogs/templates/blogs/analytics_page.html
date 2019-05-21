@@ -1,0 +1,47 @@
+{% extends 'blogs/base.html' %}
+
+{% block content %}
+    <div class="container">
+
+        <center><h1>Analytics</h1></center>
+        <br><br><br><hr><hr>
+            <p>total blog = {{ total.0 }}</p>
+            <hr>
+            <p>Total visitor = {{ total.1 }}</p>
+            <p>Min visitor = {{ total.2 }}</p>
+            <p>Max visitor = {{ total.3 }}</p>
+            <p>Variance visitor = {{ total.4 }}</p>
+            <p>Average visitor = {{ total.5 }}</p>
+            <hr>
+            <p>Total like = {{ total.6 }}</p>
+            <p>Min like = {{ total.7 }}</p>
+            <p>Max like = {{ total.8 }}</p>
+            <p>Variance like = {{ total.9 }}</p>
+            <p>Average like = {{ total.10 }}</p>
+            <hr>
+            <p>Total dislike = {{ total.11 }}</p>
+            <p>Min dislike = {{ total.12 }}</p>
+            <p>Max dislike = {{ total.13 }}</p>
+            <p>Variance dislike = {{ total.14 }}</p>
+            <p>Average dislike = {{ total.15 }}</p>
+            <hr>
+            <p>Total comments = {{ total.16 }}</p>
+            <p>Min comments = {{ total.17 }}</p>
+            <p>Max comments = {{ total.18 }}</p>
+            <p>Variance comments = {{ total.19 }}</p>
+            <p>Average comments = {{ total.20 }}</p>
+            <hr>
+        <br><br><br><hr><hr>
+        {% for analy in analytics %}
+            <b><p>{{ analy.post.title }}</p></b>
+            <p>num visited : {{ analy.num_visited }}</p>
+            <p>last update : {{ analy.last_updated }}</p>
+            <p>time visited : {{ analy.time_visited }}</p>
+            <p>like : {{ analy.like }}</p>
+            <p> dislike : {{ analy.dislike }}</p>
+            <hr>
+        {% endfor %}
+
+    </div>
+
+{% endblock %}

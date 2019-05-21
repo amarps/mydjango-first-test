@@ -1,0 +1,12 @@
+{% extends 'blogs/base.html' %}
+
+{% block content %}
+    <div class="container">
+
+        <center><h1>select related</h1></center>
+        {% for p in person %}
+            <p>{{ p.name }} : {{ p.nationality.name }} </p>
+        {% endfor %}
+    </div>
+
+{% endblock %}
