@@ -26,39 +26,24 @@ def related(request):
     return render(request, 'blogs/related.html', {'person':person})
 
 def analytics_page(request, category=''):
-    analytics = Analytics.objects.all()
-    total_blogs = analytics.aggregate(total = Count('post'))['total']
-    total_visitor = analytics.aggregate(total = Sum('num_visited'))['total']
-    min_visitor = analytics.aggregate(total = Min('num_visited'))['total']
-    max_visitor = analytics.aggregate(total = Max('num_visited'))['total']
-    variance_visitor = analytics.aggregate(total = Variance('num_visited'))['total']
-    average_visitor = analytics.aggregate(total = Avg('num_visited'))['total']
+    analytics = Analytics.objects.select_related('post')
+    data = analytics.aggregate(
+#                       total post
+                        Count('post'),
+#                       visitor
+                        Sum('num_visited'), Min('num_visited'), 
+                        Max('num_visited'), Variance('num_visited'), Avg('num_visited'),
+#                       Like
+                        Sum('like'), Min('like'), 
+                        Max('like'), Variance('like'), Avg('like'),
+#                       DisLike
+                        Sum('dislike'), Min('dislike'), 
+                        Max('dislike'), Variance('dislike'), Avg('dislike'),
+#                       Comments
+                        Sum('num_comment'), Min('num_comment'), 
+                        Max('num_comment'), Variance('num_comment'), Avg('num_comment'))
 
-    total_like = analytics.aggregate(total = Sum('like'))['total']
-    min_like = analytics.aggregate(total = Min('like'))['total']
-    max_like = analytics.aggregate(total = Max('like'))['total']
-    variance_like = analytics.aggregate(total = Variance('like'))['total']
-    average_like = analytics.aggregate(total = Avg('like'))['total']
-
-    total_dislike = analytics.aggregate(total = Sum('dislike'))['total']
-    min_dislike = analytics.aggregate(total = Min('dislike'))['total']
-    max_dislike = analytics.aggregate(total = Max('dislike'))['total']
-    variance_dislike = analytics.aggregate(total = Variance('dislike'))['total']
-    average_dislike = analytics.aggregate(total = Avg('dislike'))['total']
-
-    total_comment = analytics.aggregate(total = Sum('num_comment'))['total']
-    min_comment = analytics.aggregate(total = Min('num_comment'))['total']
-    max_comment = analytics.aggregate(total = Max('num_comment'))['total']
-    variance_comment = analytics.aggregate(total = Variance('num_comment'))['total']
-    average_comment = analytics.aggregate(total = Avg('num_comment'))['total']
-
-    total = [
-            total_blogs,
-            total_visitor, min_visitor, max_visitor, variance_visitor, average_visitor, 
-            total_like, min_like, max_like, variance_like,  average_like,
-            total_dislike, min_dislike, max_dislike, variance_dislike, average_dislike, 
-            total_comment, min_comment, max_comment, variance_comment, average_comment, 
-            ]
+    total = data.values()
 
     return render(request, 'blogs/analytics_page.html', {'analytics':analytics, 'total':total})
 
@@ -92,6 +77,9 @@ def post_detail(request, pk):
             comment.author = request.user
             comment.published_date = timezone.now()
             comment.save()
+            analytics = Analytics.objects.get(post=post)
+            analytics.num_comment = analytics.num_comment + 1
+            analytics.save()
             return redirect('post_detail', pk=post.pk)
     else:
         form = CommentForm()

@@ -90,6 +90,7 @@
                 <i>{{ post.published_date }}</i>
             </div>
             {% endif %}
+            <p>Author : {{ post.author.username }}</p>
             <p class="card-text">{{ post.text | post_list_body | linebreaks }}</p>
             <p>Number Category : {{ post.categories__count }}</p>
             <a href="{% url 'post_detail' pk=post.pk %}" class="btn btn-primary">Read</a>
