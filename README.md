@@ -13,10 +13,9 @@ My first blog using django
 
 ## feature
 - [x] Comment
-- [x] Login
 - [x] CRUD Blog
 - [x] Login Register User
-- [x] Sample Datanase
+- [x] Sample Database
 
 ## Tested On
 > Arch Linux x86_64
